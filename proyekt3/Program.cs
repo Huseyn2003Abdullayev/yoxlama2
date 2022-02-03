@@ -8,8 +8,6 @@ using System.Text.RegularExpressions;
 namespace proyekt3
 {
 
-    // test comment 
-
     public class Product
     {
         public string Code { get; set; }
@@ -27,33 +25,36 @@ namespace proyekt3
     {
         public List<string> GetAllProduct()
         {
-             List<string> products = new List<string>();
+            List<string> products = new List<string>();
             string filepath = @"2.txt";
             var line = File.ReadAllLines(filepath);
-           // products.Add(line);
+            // products.Add(line);
             //string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "2.txt");
             foreach (var item in line)
             {
-                
+
                 Console.WriteLine(item);
                 products.Add(item);
             }
             return products;
         }
-        public Product GetProductByCode(string code)
+        public Product GetProductByCode(string code, string name, double price, int quantity)
         {
             Product product = new Product();
             List<string> list = GetAllProduct();
-            
+
             foreach (var item in list)
             {
                 string[] words = item.Split('|');
                 foreach (var word in words)
                 {
-                   // var products = list.Find(products => product.Code == code);
-                    var mallar = list.Find(mallar =>product.Code.Contains(code));
-                    if(word == code)
+                    // var products = list.Find(products => product.Code == code);
+                    list.Find(product => product.Contains(code));
+                    if (word == code)
                     {
+                        name = product.Name;
+                        quantity = product.Quantity;
+                        price = product.Price;
                         goto cixisa;
                     }
                 }
@@ -63,6 +64,7 @@ namespace proyekt3
             {
                 return product;
             }
+
         }
         public void AddProduct(Product product)
         {
@@ -80,9 +82,9 @@ namespace proyekt3
             using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + @"/2.txt"))
             {
                 sw.Write("malin adi|");
-                sw.Write("malin qiymeti| " );
-                sw.Write("malin sayi| "  );
-                sw.WriteLine("malin kodu| " );
+                sw.Write("malin qiymeti| ");
+                sw.Write("malin sayi| ");
+                sw.WriteLine("malin kodu| ");
                 sw.Write(product.Name + "|");
                 sw.Write(product.Price + "|");
                 sw.Write(product.Quantity + "|");
@@ -99,31 +101,31 @@ namespace proyekt3
         }
         public void UpdateProduct()
         {
-            #region update product
-            string filepath = @"2.txt";
-            var lines = File.ReadAllLines(filepath);
-            Console.WriteLine("mehsulun kodun yazin");
-            string code = Console.ReadLine();
-            var product = GetProductByCode(code);
-            #region change name
-            Console.WriteLine("mehsulun yeni adini daxil edin");
-            string itemname = Console.ReadLine();
-            var newLines = lines.Select(line => Regex.Replace(line, product.Name, itemname, RegexOptions.IgnoreCase));
-            File.WriteAllLines(filepath, newLines);
-            #endregion
-            #region change price
-            Console.WriteLine("mehsulun yeni qiymetin daxil edin");
-            string itemprice = Console.ReadLine();
-            newLines = lines.Select(line => Regex.Replace(line, product.Price.ToString(), itemprice, RegexOptions.IgnoreCase));
-            File.WriteAllLines(filepath, newLines);
-            #endregion
-            #region change quantity
-            Console.WriteLine("mehsulun yeni sayin daxil edin");
-            string itemquantity = Console.ReadLine();
-            newLines = lines.Select(line => Regex.Replace(line, product.Quantity.ToString(), itemquantity, RegexOptions.IgnoreCase));
-            File.WriteAllLines(filepath, newLines);
-            #endregion
-            #endregion
+            // #region update product
+            // string filepath = @"2.txt";
+            // var lines = File.ReadAllLines(filepath);
+            // Console.WriteLine("mehsulun kodun yazin");
+            // string code = Console.ReadLine();
+            //// var product = GetProductByCode(code);
+            // #region change name
+            // Console.WriteLine("mehsulun yeni adini daxil edin");
+            // string itemname = Console.ReadLine();
+            // var newLines = lines.Select(line => Regex.Replace(line, product.Name, itemname, RegexOptions.IgnoreCase));
+            // File.WriteAllLines(filepath, newLines);
+            // #endregion
+            // #region change price
+            // Console.WriteLine("mehsulun yeni qiymetin daxil edin");
+            // string itemprice = Console.ReadLine();
+            // newLines = lines.Select(line => Regex.Replace(line, product.Price.ToString(), itemprice, RegexOptions.IgnoreCase));
+            // File.WriteAllLines(filepath, newLines);
+            // #endregion
+            // #region change quantity
+            // Console.WriteLine("mehsulun yeni sayin daxil edin");
+            // string itemquantity = Console.ReadLine();
+            // newLines = lines.Select(line => Regex.Replace(line, product.Quantity.ToString(), itemquantity, RegexOptions.IgnoreCase));
+            // File.WriteAllLines(filepath, newLines);
+            // #endregion
+            // #endregion
         }
         public void DeleteProduct()
         {
@@ -132,18 +134,24 @@ namespace proyekt3
             var lines = File.ReadAllLines(filepath);
             Console.WriteLine("mehsulun kodun yazin");
             string code = Console.ReadLine();
-            var product = GetProductByCode(code);
+            string itemname = null;
+            double itemprice = 0;
+            int itemquantity = 0;
+            var product = GetProductByCode(code, itemname, itemprice, itemquantity);
+            itemname = product.Name;
+            itemprice = product.Price;
+            itemquantity = product.Quantity;
             string itemcode = product.ToString();
             var newLines = lines.Select(line => Regex.Replace(line, itemcode, string.Empty, RegexOptions.IgnoreCase));
             File.WriteAllLines(filepath, newLines);
-            string itemname = product.Name;
+            //  string itemname = product.Name;
             newLines = lines.Select(line => Regex.Replace(line, itemname, string.Empty, RegexOptions.IgnoreCase));
             File.WriteAllLines(filepath, newLines);
-            string itemprice = product.Price.ToString();
-            newLines = lines.Select(line => Regex.Replace(line, itemprice, string.Empty, RegexOptions.IgnoreCase));
+            // string itemprice = product.Price.ToString();
+            newLines = lines.Select(line => Regex.Replace(line, itemprice.ToString(), string.Empty, RegexOptions.IgnoreCase));
             File.WriteAllLines(filepath, newLines);
-            string itemquantity = product.Quantity.ToString();
-            newLines = lines.Select(line => Regex.Replace(line, itemquantity, string.Empty, RegexOptions.IgnoreCase));
+            // string itemquantity = product.Quantity.ToString();
+            newLines = lines.Select(line => Regex.Replace(line, itemquantity.ToString(), string.Empty, RegexOptions.IgnoreCase));
             File.WriteAllLines(filepath, newLines);
             #endregion
         }
@@ -154,7 +162,7 @@ namespace proyekt3
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Product product = new Product();
 
