@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 
-namespace ConsoleApp1
+namespace proyekt_2
 {
 
     public class Product
@@ -20,11 +20,11 @@ namespace ConsoleApp1
     public class ProductDataService
     {
         Product product = new Product();
-       List<Product> list = new List<Product>();
-        
+        List<Product> list = new List<Product>();
+
         public List<Product> GetProductList()
         {
-           // List<Product> list = new List<Product>();
+            // List<Product> list = new List<Product>();
 
             // text file dan setir be setir productlari oxuyub liste elave edecek
             string[] lines = File.ReadAllLines(AppDomain.CurrentDomain.BaseDirectory + "log.txt");
@@ -39,14 +39,14 @@ namespace ConsoleApp1
             //    a = source.ReadByte();
             //}
             //Console.WriteLine(list);
-            
+
             return list;
         }
 
         public Product GetProductByCode(string code)
         {
-             List<Product> list = GetProductList();
-           // Product product = new Product();
+            List<Product> list = GetProductList();
+            // Product product = new Product();
 
             // text file da product u coda gore axtaracaq 
             // eger  tapsa 
@@ -55,8 +55,8 @@ namespace ConsoleApp1
             //product.Price  = price
             // tapmasa null;
             var products = list.Find(products => product.Code == code);
-           
-           
+
+
 
             return product;
         }
@@ -80,7 +80,7 @@ namespace ConsoleApp1
                 sw.WriteLine("malin qiymeti " + product.Price);
                 sw.WriteLine("malin sayi " + product.Quantity);
                 sw.WriteLine("malin kodu " + product.Code);
-                
+
             }
             list.Add(product);
             Console.WriteLine(product.Name);
@@ -90,7 +90,7 @@ namespace ConsoleApp1
             Console.WriteLine("mal ugurla elave edildi");
             #endregion
         }
-        public void UpdateProductByCode( Product _product)
+        public void UpdateProductByCode(Product _product)
         {
             // text file da product u coda gore axtaracaq 
             // eger  tapsa 
@@ -103,8 +103,8 @@ namespace ConsoleApp1
 
             // tapmasa null;
             Console.WriteLine("mali deyismek ucun kodun daxil edin");
-           string code = Console.ReadLine();
-           GetProductByCode(code);
+            string code = Console.ReadLine();
+            GetProductByCode(code);
             #region Change Name
             Console.WriteLine("Mehsulun yeni adini daxil edin :");
             _product.Name = Console.ReadLine();
@@ -118,10 +118,10 @@ namespace ConsoleApp1
             #region change price
             Console.WriteLine("Mehsulun yeni qiymetini daxil edin :");
             string priceInput = Console.ReadLine();
-           _product.Price = Convert.ToInt32(priceInput);
+            _product.Price = Convert.ToInt32(priceInput);
             #endregion
             string text = File.ReadAllText("log.txt");
-            text.Replace(product.Name,_product.Name);
+            text.Replace(product.Name, _product.Name);
             text.Replace(product.Price.ToString(), _product.Price.ToString());
             text.Replace(product.Quantity.ToString(), _product.Quantity.ToString());
             File.WriteAllText("log.txt", text);
@@ -129,10 +129,10 @@ namespace ConsoleApp1
             product.Price = _product.Price;
             product.Quantity = _product.Quantity;
             product.Code = _product.Code;
-            
-           
-           
-           
+
+
+
+
             Console.WriteLine("mal ugurla deyisildi");
         }
         public void DeleteProductByCode()
@@ -140,7 +140,7 @@ namespace ConsoleApp1
             // text file da product u coda gore axtaracaq 
             // eger  tapsa silecek
             Console.WriteLine("mehsulun kodun yazin");
-           string code= Console.ReadLine();
+            string code = Console.ReadLine();
             var product = GetProductByCode(code);
             list.Remove(product);
             Console.WriteLine("Mehsul ugurla silindi");
@@ -153,7 +153,7 @@ namespace ConsoleApp1
         static void Main()
         {
             Product product = new Product();
-            
+
             ProductDataService productDataService = new ProductDataService();
         Bas:
             Console.WriteLine("yeni mehsul elave etmek isteyirsinizse 1 yazin");
@@ -171,11 +171,11 @@ namespace ConsoleApp1
                     productDataService.UpdateProductByCode(product);
                     break;
                 case 3:
-                   productDataService.DeleteProductByCode();
+                    productDataService.DeleteProductByCode();
                     break;
                 case 4:
                     productDataService.GetProductList();
-                   
+
                     break;
             }
             Console.WriteLine("emaliyyat bitdikden sora bitdi yazin");
